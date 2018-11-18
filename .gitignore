@@ -1,0 +1,4 @@
+*.o
+*~
+examples/**/config.h
+.pioenvs/

@@ -25,6 +25,7 @@ the `AWS_IOT` class from the client code. This makes the library easier usable.
     * [Create thing](#create-thing)
     * [MQTT endpoint](#mqtt-endpoint)
     * [Attach a policy to your thing](#attach-a-policy-to-your-thing)
+* [Author](#author)
 
 <!-- vim-markdown-toc -->
 
@@ -51,6 +52,8 @@ A plattformio [project](platformio.ini) and [Makefile](Makefile) is provided.
   start the serial monitor afterwards to see what is going on.
 
 ## AWS IoT core notes
+
+**work in progress**
 
 ### Create thing
 
@@ -160,4 +163,7 @@ $ aws iot attach-policy --policy-name "iot-full-permissions"  \
 $  aws iot list-targets-for-policy --policy-name iot-full-permissions
 ```
 
+## Author
+
+Jan Delgado <jdelgado@gmx.net>, original work from https://github.com/ExploreEmbedded/Hornbill-Examples.
 

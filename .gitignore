@@ -2,3 +2,4 @@
 *~
 examples/**/config.h
 .pioenvs/
+**/*.pem

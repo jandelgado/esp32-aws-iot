@@ -26,6 +26,7 @@ needed to set your ~~thing~~ up.
     * [Create thing group and thing](#create-thing-group-and-thing)
     * [Create keys and certificates](#create-keys-and-certificates)
     * [Attach policy to your thing](#attach-policy-to-your-thing)
+    * [One-stop tool](#one-stop-tool)
     * [MQTT endpoint](#mqtt-endpoint)
 * [Author](#author)
 
@@ -150,10 +151,11 @@ aws iot list-thing-principals --thing-name $THING
 
 ### Attach policy to your thing
 
-It is important to attach a policy to your thing, otherwise no communication
-will be possible.
+It is important to attach a policy to your thing (technically: to the
+certificate attached to the thing), otherwise no communication will be
+possible.
 
-First we need create a permission named `iot-full-permissions` which, as
+First we need to create a permission named `iot-full-permissions` which, as
 the name suggests, has full iot permissions:
 
 ```bash
@@ -194,18 +196,23 @@ $ aws iot list-policies
 
 (TODO least privilege permission sets in policies)
 
-Next, we attach the policy to our thing (remember, we called it `ESP32_SENSOR`
-and stored the name in the `$THING` environment variable when we created it):
+Next, we attach the policy to the certificate:
+
+**WiP**
 
 ```bash
-$ THING_ARN=$(aws iot describe-thing --thing-name $THING | jq .thingArn)
-$ echo $THING_ARN
 "arn:aws:iot:eu-central-1:*****:thing/ESP32_SENSOR"
 $ aws iot attach-policy --policy-name "iot-full-permissions"  \
-                        --target "$THING_ARN"
+                        --target "7bb8fd75139186deef4c054a73d15ea9e2a5f603a29025e453057bbe70c767fe"
 $ aws iot list-targets-for-policy --policy-name iot-full-permissions
 ...
 ```
+
+### One-stop tool
+
+Entering above commands manually is slow and error prone. See the provided
+[create_thing.py](tools/create_thing.py) Python script, which performs all
+steps automatically.
 
 ### MQTT endpoint
 

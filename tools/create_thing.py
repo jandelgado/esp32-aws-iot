@@ -57,8 +57,6 @@ def attach_thing_principal(iot, thing_name, principal_arn):
 
 
 def attach_policy(iot, thing_arn, policy_name):
-    print(thing_arn)
-    print(policy_name)
     return iot.attach_policy(policyName=policy_name, target=thing_arn)
 
 

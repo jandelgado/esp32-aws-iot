@@ -13,7 +13,13 @@ the `AWS_IOT` class from the client code. This makes the library easier usable.
 * original repository:  https://github.com/ExploreEmbedded/Hornbill-Examples
 
 Additionally, I added a tutorial on using the AWS cli to create everything
-needed to set your ~~thing~~ up.
+needed to set your ~~thing~~ up. 
+
+Also I added [all-in-one thing creator
+script](#all-in-ine-thing-creator-script) which uses the AWS API (python/boto3)
+to create a thing, certificates and attach certificates and policies. In
+addition the script outputs ready-to-include C++ code to be included in your
+sketch.
 
 ## Contents
 
@@ -26,7 +32,7 @@ needed to set your ~~thing~~ up.
     * [Create thing group and thing](#create-thing-group-and-thing)
     * [Create keys and certificates](#create-keys-and-certificates)
     * [Attach policy to your thing](#attach-policy-to-your-thing)
-    * [One-stop tool](#one-stop-tool)
+    * [All-in-one thing creator script](#all-in-one-thing-creator-script)
     * [MQTT endpoint](#mqtt-endpoint)
 * [Author](#author)
 
@@ -208,11 +214,25 @@ $ aws iot list-targets-for-policy --policy-name iot-full-permissions
 ...
 ```
 
-### One-stop tool
+### All-in-one thing creator script
 
-Entering above commands manually is slow and error prone. See the provided
+Entering above aws cli commands manually is slow and error prone. See the provided
 [create_thing.py](tools/create_thing.py) Python script, which performs all
-steps automatically.
+steps automatically and also produces c++ code containing the certificate and
+key ready to be included in your ESP32 sketch.
+
+```
+usage: create_thing.py [-h] [--type-name TYPE_NAME] name policy_name
+
+positional arguments:
+  name                  name of the thing to create
+  policy_name           policy to attach thing to
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --type-name TYPE_NAME
+                        thing type name
+```
 
 ### MQTT endpoint
 

@@ -251,5 +251,5 @@ for example issue a netcat command like `nc -v <your-iot-endpoint> 8883`.
 
 ## Author
 
-Jan Delgado <jdelgado@gmx.net>, original work from https://github.com/ExploreEmbedded/Hornbill-Examples.
+Jan Delgado <jdelgado at gmx.net>, original work from https://github.com/ExploreEmbedded/Hornbill-Examples.
 

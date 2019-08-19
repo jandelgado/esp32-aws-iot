@@ -13,10 +13,10 @@ the `AWS_IOT` class from the client code. This makes the library easier usable.
 * original repository:  https://github.com/ExploreEmbedded/Hornbill-Examples
 
 Additionally, I added a tutorial on using the AWS cli to create everything
-needed to set your ~~thing~~ up. 
+needed to set your thing up. 
 
 Also I added [all-in-one thing creator
-script](#all-in-in-thing-creator-script) which uses the AWS API (python/boto3)
+script](#all-in-one-thing-creator-script) which uses the AWS API (python/boto3)
 to create a thing, certificates and attach certificates and policies. In
 addition the script outputs ready-to-include C++ code to be included in your
 sketch.

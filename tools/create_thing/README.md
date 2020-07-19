@@ -1,9 +1,8 @@
 # create_thing.py
 
-This tool uses the AWS API (python/boto3)
-to create a thing, certificates and attach certificates and policies. In
-addition the script outputs ready-to-include C++ code to be included in your
-sketch.
+This tool uses the AWS API (python/boto3) to create a thing, certificates and
+attach certificates and policies. In addition the script outputs
+ready-to-include C++ code to be included in your sketch.
 
 ## Usage 
 
@@ -22,11 +21,11 @@ optional arguments:
 
 ## Installation
 
-Run `pipenv install`
+We use python and [poetry](https://python-poetry.org/): just run `poetry install` to install
 
 ## Author and copyright
 
-(C) Copyright 2019 Jan Delgado
+(C) Copyright 2019-2020 Jan Delgado
 
 ## License
 

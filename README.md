@@ -26,21 +26,24 @@ sketch.
 <!-- vim-markdown-toc GFM -->
 
 * [Examples](#examples)
-    * [pubSubTest Example](#pubsubtest-example)
-* [Build](#build)
+    * [pubSubTest Example/Quickstart](#pubsubtest-examplequickstart)
+        * [Build](#build)
 * [AWS IoT core notes](#aws-iot-core-notes)
     * [Create thing group and thing](#create-thing-group-and-thing)
     * [Create keys and certificates](#create-keys-and-certificates)
     * [Attach policy to your thing](#attach-policy-to-your-thing)
     * [All-in-one thing creator script](#all-in-one-thing-creator-script)
     * [MQTT endpoint](#mqtt-endpoint)
+* [Troubleshooting](#troubleshooting)
+    * [Error -0x2780](#error--0x2780)
+    * [Error -0x2700](#error--0x2700)
 * [Author](#author)
 
 <!-- vim-markdown-toc -->
 
 ## Examples
 
-### pubSubTest Example
+### pubSubTest Example/Quickstart
 
 Under [examples/pubSubTest](examples/pubSubTest) the original PubSub example of
 the hornbill repository is included, with the configuration externalized to a
@@ -48,17 +51,34 @@ separate file [config.h-dist](examples/pubSubTest/config.h-dist). To build the
 example, copy the `config.h-dist` file to a file called `config.h` and modify
 to fit your configuration:
 
-* add WiFi configuration
+* add your WiFi configuration
 * add AWS thing private key (see below)
 * add AWS thing certificate (see below)
 * add [AWS MQTT endpoint address](#mqtt-endpoint)
 
-## Build
+The easisiet way to obtain the certificates and create the things is to use
+the [all-in-one thing creator script](#all-in-one-thing-creator-script). Don't
+forget to create a IAM policy first (see below).
+
+#### Build
 
 A plattformio [project](platformio.ini) and [Makefile](Makefile) is provided.
 
-* run `make upload monitor` to build and upload the example to the ESP32 and
-  start the serial monitor afterwards to see what is going on.
+Run `make upload monitor` to build and upload the example to the ESP32 and
+start the serial monitor afterwards to see what is going on.
+
+If everything works, you should see something like this on your console:
+```
+Attempting to connect to SSID: MYSSID
+Connected to wifi
+Connected to AWS
+Subscribe Successfull
+Publish Message:Hello from hornbill ESP32 : 0
+Received Message:Hello from hornbill ESP32 : 0
+Publish Message:Hello from hornbill ESP32 : 1
+Received Message:Hello from hornbill ESP32 : 1
+...
+```
 
 ## AWS IoT core notes
 
@@ -216,10 +236,10 @@ $ aws iot list-targets-for-policy --policy-name iot-full-permissions
 
 ### All-in-one thing creator script
 
-Entering above aws cli commands manually is slow and error prone. See the provided
-[create_thing.py](tools/create_thing.py) Python script, which performs all
-steps automatically and also produces c++ code containing the certificate and
-key ready to be included in your ESP32 sketch.
+Entering above aws cli commands manually is slow and error prone. See the
+provided [create_thing.py](tools/create_thing/create_thing.py) Python script,
+which performs all steps automatically and also produces c++ code containing
+the certificate and keys ready to be included in your ESP32 sketch.
 
 ```
 usage: create_thing.py [-h] [--type-name TYPE_NAME] name policy_name
@@ -236,18 +256,38 @@ optional arguments:
 
 ### MQTT endpoint
 
-Running `aws describe-endpoint` will give you the endpoint of your MQTT and
-REST service:
+Running `aws describe-endpoint` will give you the endpoint of your MQTT service
+(make sure to use the `ATS` enpoint for the data service type):
 
 ```bash
-$ aws iot describe-endpoint
+$ aws iot describe-endpoint --endpoint-type iot:Data-ATS
 {
-    "endpointAddress": "*****.iot.eu-central-1.amazonaws.com"
+    "endpointAddress": "*****-ats.iot.eu-central-1.amazonaws.com"
 }
 ```
 
 The secure MQTT port is 8883. To test if your MQTT endpoint is up, you could
 for example issue a netcat command like `nc -v <your-iot-endpoint> 8883`.
+
+## Troubleshooting
+
+### Error -0x2780
+
+```
+E (15426) aws_iot: failed!  mbedtls_x509_crt_parse returned -0x2780 while parsing device cert`
+```
+
+Check the format of your PEM key and certificates in `config.h`. 
+
+### Error -0x2700
+
+```
+(11417) aws_iot: failed! mbedtls_ssl_handshake returned -0x2700
+E (11417) aws_iot:     Unable to verify the server's certificate. 
+E (11427) AWS_IOT: Error(-4) connecting to **********.iot.eu-central-1.amazonaws.com:8883,
+```
+
+Are you using the correct MQTT endpoint (hint use the `ATS` endpoint)?
 
 ## Author
 

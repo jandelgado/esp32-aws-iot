@@ -3,3 +3,6 @@
 examples/**/config.h
 .pioenvs/
 **/*.pem
+.pio/
+__pycache__
+tools/create_thing/create_thing.egg-info/

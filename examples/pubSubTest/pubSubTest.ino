@@ -27,10 +27,7 @@ void setup() {
     {
         Serial.print("Attempting to connect to SSID: ");
         Serial.println(WIFI_SSID);
-        // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
         status = WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
-        // wait 5 seconds for connection:
         delay(5000);
     }
 
@@ -48,13 +45,13 @@ void setup() {
         }
         else
         {
-            Serial.println("Subscribe Failed, Check the Thing Name and Certificates");
+            Serial.println("Subscribe Failed, Check the Thing Name and Certificates. RESET.");
             while(1);
         }
     }
     else
     {
-        Serial.println("AWS connection failed, Check the HOST Address");
+        Serial.println("AWS connection failed, Check the HOST Address. RESET.");
         while(1);
     }
 

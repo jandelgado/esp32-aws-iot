@@ -14,30 +14,35 @@ optional arguments:
   --type-name TYPE_NAME
                         thing type name
 
-(C) Copyright 2019 Jan Delgado
+(C) Copyright 2019-2020 Jan Delgado
 """
 import sys
 import argparse
 import boto3
 
 
+def string_as_c_literal(s):
+    """return string s as a c multi-line string literal"""
+    return "\n".join([ f"\"{l}\\n\"" for l in s.split("\n") ])
+
 def print_key_and_cert(f, cert, thing_name):
     """print key and certificate as c++ source ready to be included in a client sketch """
+
     print("""
 // -------------------------------------------------------------------------
 // certificateArn: {arn}
 // for thing: {thing_name}
 // DO NOT PUT THIS FILE UNDER SOURCE CONTROL.
 // -------------------------------------------------------------------------
-auto constexpr certificate_pem_crt = "{cert}";
+auto constexpr certificate_pem_crt = {cert};
 
-auto constexpr private_pem_key= "{key}";
+auto constexpr private_pem_key= {key};
 
     """.format(arn=cert['certificateArn'],
                thing_name=thing_name,
-               cert=cert['certificatePem'].replace("\n", "\\\n"),
-               key=cert['keyPair']['PrivateKey'].replace("\n", "\\\n")),
-          file=f)
+               cert=string_as_c_literal(cert['certificatePem']),
+               key=string_as_c_literal(cert['keyPair']['PrivateKey']),
+               file=f))
 
 
 def create_thing(iot, thing_name, thing_type_name=None):
@@ -88,4 +93,9 @@ def main(argv):
     print_key_and_cert(sys.stdout, cert, args.name)
 
 
-main(sys.argv)
+def run():
+    main(sys.argv)
+
+if __name__ == '__main__':
+    run()
+

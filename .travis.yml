@@ -29,7 +29,7 @@ cache:
     - "~/.platformio"
 
 install:
-  - pip install --user platformio
+  - pip install --user platformio==4.3.4
 
 script:
   - make ci

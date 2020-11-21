@@ -1,6 +1,6 @@
 # ESP32 AWS IoT example using Arduino SDK
 
-[![Build Status](https://travis-ci.org/jandelgado/esp32-aws-iot.svg?branch=master)](https://travis-ci.org/jandelgado/esp32-aws-iot)
+![Build Status](https://github.com/jandelgado/esp32-aws-iot/workflows/run%20tests/badge.svg)
 
 This is a fork of https://github.com/ExploreEmbedded/Hornbill-Examples
 focusing on the AWS_IOT library and removing everything else. The code was
